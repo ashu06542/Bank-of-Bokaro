@@ -1,5 +1,7 @@
 package com.bank.BankOfBokaro.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,4 +13,6 @@ public interface AccountCreationDao extends CrudRepository<AccountCreationEntity
 
 	 @Query("SELECT MAX(accntNumber) FROM AccountCreationEntity")
 	    int findGreatestAccntNumber();
+	 
+	public List findByAccntNumber(long accntNum);
 }
