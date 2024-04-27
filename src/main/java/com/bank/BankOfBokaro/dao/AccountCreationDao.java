@@ -14,5 +14,5 @@ public interface AccountCreationDao extends CrudRepository<AccountCreationEntity
 	 @Query("SELECT MAX(accntNumber) FROM AccountCreationEntity")
 	    int findGreatestAccntNumber();
 	 
-	public List findByAccntNumber(long accntNum);
+	public AccountCreationEntity findByAccntNumber(long accntNum);
 }

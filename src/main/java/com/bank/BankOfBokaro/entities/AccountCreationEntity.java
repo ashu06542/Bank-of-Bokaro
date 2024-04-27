@@ -14,15 +14,16 @@ import jakarta.persistence.Table;
 @Table(name="CustomerInfo")
 public class AccountCreationEntity  {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	
+
+	
 	private String name;
 	private String dob;
 	private String fathersName;
 	private String email;
 	private long mobileNo;
 	private double initBalance;
+	@Id
 	private long accntNumber;
 	
 	
@@ -34,18 +35,6 @@ public class AccountCreationEntity  {
 	}
 	
 	
-	
-	public int getId() {
-		return id;
-	}
-
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
 
 	public String getName() {
 		return name;
