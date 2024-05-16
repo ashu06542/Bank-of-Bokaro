@@ -18,8 +18,48 @@ public class AccountCreationModel {
 		private long mobileNo;
 		private double initBalance;
 		private long accntNumber;
+		private long journalNo;
+		private String dateOfCreation;
+		private String status;
 		
 		
+		
+		public long getJournalNo() {
+			return journalNo;
+		}
+
+
+
+		public void setJournalNo(long journalNo) {
+			this.journalNo = journalNo;
+		}
+
+
+
+		public String getDateOfCreation() {
+			return dateOfCreation;
+		}
+
+
+
+		public void setDateOfCreation(String dateOfCreation) {
+			this.dateOfCreation = dateOfCreation;
+		}
+
+
+
+		public String getStatus() {
+			return status;
+		}
+
+
+
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+
+
 		@Override
 		public String toString() {
 			return "AccountCreationModel [name=" + name + ", dob=" + dob + ", fathersName=" + fathersName + ", email="

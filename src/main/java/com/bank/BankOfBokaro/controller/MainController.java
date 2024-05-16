@@ -1,6 +1,10 @@
 package com.bank.BankOfBokaro.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +20,55 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bank.BankOfBokaro.dao.AccountCreationDao;
+
+import com.bank.BankOfBokaro.dao.AccountInfoDao;
+import com.bank.BankOfBokaro.dao.DebitCreditDao;
+import com.bank.BankOfBokaro.dao.TellerInfoDao;
 import com.bank.BankOfBokaro.entities.AccountCreationEntity;
+import com.bank.BankOfBokaro.entities.AccountDebitCreditEntity;
+import com.bank.BankOfBokaro.entities.TellerInfoEntity;
 import com.bank.BankOfBokaro.model.AccountCreationModel;
-import com.bank.BankOfBokaro.model.AccountDebitCredit;
+import com.bank.BankOfBokaro.model.AccountDebitCreditModel;
 import com.bank.BankOfBokaro.model.AccountInfoModel;
+import com.bank.BankOfBokaro.model.TellerCreationModel;
+import com.bank.BankOfBokaro.model.TellerLoginModel;
+import com.bank.BankOfBokaro.services.AccountCreationServices;
+import com.bank.BankOfBokaro.services.AccountInfoService;
+import com.bank.BankOfBokaro.services.DebitCreditService;
+import com.bank.BankOfBokaro.services.TellerInfoService;
+import com.bank.BankOfBokaro.services.TellerLoginService;
 
 @Controller
 public class MainController {
 
 	@Autowired
-	AccountCreationDao accountInfoDao;
+	AccountInfoDao accountInfoDao;
+	
+	@Autowired
+	TellerInfoDao  tellerInfoDao;
+	
+	
+	@Autowired
+	DebitCreditDao debitCreditDao;
 	@Autowired
 	ModelMapper mapper;
 
+	@Autowired
+	TellerInfoService tellerInfoService;
+	
+	@Autowired
+	DebitCreditService debitCreditService;
+		
+	@Autowired
+	AccountCreationServices accountCreationService;
+
+	@Autowired
+	AccountInfoService accountInfoService;
+	
+	@Autowired
+	TellerLoginService tellerLoginService;
+	
+	
 	@GetMapping("/accntCreation")
 	public String showAccountCreationPage() {
 
@@ -41,9 +80,8 @@ public class MainController {
 	public String onSubmitOfAccntCreation(@ModelAttribute AccountInfoModel accountInfoModel, Model model,
 			BindingResult result) {
 
-		AccountCreationEntity ent = mapper.map(accountInfoModel, AccountCreationEntity.class);
-		accountInfoDao.save(ent);
-		model.addAttribute("accountNum", ent.getAccntNumber());
+		accountCreationService.onSubmitOfAccntCreation(accountInfoModel);
+ 		model.addAttribute("accountNum", accountInfoModel.getAccntNumber());
 
 		return "success";
 
@@ -56,25 +94,20 @@ public class MainController {
 
 	@PostMapping("/enquire")
 	public String getAccountInfo(@ModelAttribute AccountInfoModel accountInfoModel, Model model) {
-		AccountCreationEntity accountInfoDaoObj = accountInfoDao.findByAccntNumber(accountInfoModel.getAccntNumber());
 
-		AccountInfoModel inf = mapper.map(accountInfoDaoObj, AccountInfoModel.class);
-
+		AccountInfoModel inf = accountInfoService.getAccountInfo(accountInfoModel);
 		model.addAttribute("accountInfo", inf);
 		return "AccountInfo";
 	}
 
 	@GetMapping("/accntNum")
-	public ResponseEntity<Integer> getAccountNumber() {
-
-		int ace = 0;
-		try {
-			ace = accountInfoDao.findGreatestAccntNumber();
-			return new ResponseEntity<Integer>(ace, HttpStatus.OK);
-		} catch (Exception e) {
-
-			return new ResponseEntity<Integer>(0, HttpStatus.OK);
-		}
+	public ResponseEntity<Long> getAccountNumber() {
+		
+		
+		long accuntNum=accountCreationService.getAccountNum();
+		
+		return new ResponseEntity<Long>(accuntNum, HttpStatus.OK);
+		
 	}
 
 	@GetMapping("/debitCredit")
@@ -85,18 +118,11 @@ public class MainController {
 	}
 
 	@PostMapping("/debitCreditProcess")
-	public String debitCreditProcess(@ModelAttribute AccountDebitCredit accountDebitCredit) {
+	public String debitCreditProcess(@ModelAttribute AccountDebitCreditModel accountDebitCreditModel) {
 
-		double debitCreditAmt = Double.valueOf(accountDebitCredit.getAmountDebitCredit());
-		AccountCreationEntity accountInfoDaoObj = accountInfoDao.findByAccntNumber(accountDebitCredit.getAccntNo());
-
-		double intialBalance = accountInfoDaoObj.getInitBalance();
-
-		double finalAmount = intialBalance + debitCreditAmt;
-
-		accountInfoDaoObj.setInitBalance(finalAmount);
-		accountInfoDao.save(accountInfoDaoObj);
-
+	     
+		debitCreditService.DebitCreditSettlement(accountDebitCreditModel);
+		
 		return "AccountDebitCredit";
 
 	}
@@ -104,15 +130,59 @@ public class MainController {
 	@GetMapping("/checkBal/{accntNum}")
 	public ResponseEntity<Double> getBalance(@PathVariable("accntNum") int accntNum){
 
-		AccountCreationEntity accountInfoDaoObj = accountInfoDao.findByAccntNumber(accntNum);
-
-		try {
+           double balance=debitCreditService.getAccountBalance(accntNum);
 			
-			return new ResponseEntity<Double>(accountInfoDaoObj.getInitBalance(), HttpStatus.OK);
-		} catch (Exception e) {
-
-			return new ResponseEntity<Double>(0.00, HttpStatus.OK);
-		}
+			return new ResponseEntity<Double>(balance, HttpStatus.OK);
+		
 	}
+	
+	@GetMapping("/TellerLogin")
+	public String viewDashBoard() {
+		
+		return "TellerLogin";
+	}
+	
+	@PostMapping("/TellerLoginSubmit")
+	public String openTellerDashBoard(@ModelAttribute TellerLoginModel tellerLoginModel, Model model) {
+		
 
+		TellerInfoEntity tellerInfoEntity=tellerInfoService.getTellerInfo(tellerLoginModel.getTellerId());
+		
+		if(Objects.nonNull(tellerInfoEntity)) {
+			
+			model.addAttribute("tellerName", tellerInfoEntity.getName());
+			model.addAttribute("tellerId", tellerInfoEntity.getTellerId());
+			model.addAttribute("capability", tellerInfoEntity.getCapability());
+			return "TellerDashBoard";
+			
+		}else {
+			
+			return "TellerLoginSubmit";
+		}
+		
+		
+	}
+	
+	@GetMapping("/createTeller")
+	public String createNewTeller() {
+		
+		return "newTeller";
+	}
+	
+	@PostMapping("/TellerCreation")
+	public ResponseEntity<String> TellerCreation(@ModelAttribute TellerCreationModel tellerCreationModel ) {
+		
+		
+		TellerInfoEntity tellerInfoEntity=mapper.map(tellerCreationModel, TellerInfoEntity.class);
+		
+		TellerInfoEntity tellerInfo=tellerInfoService.getTellerInfo(tellerInfoEntity.getTellerId());
+		
+		
+		
+		if(Objects.nonNull(tellerInfo)) {
+			return new ResponseEntity<String>("Teller is already present", HttpStatus.OK);
+		}
+		tellerInfoService.addTeller(tellerInfoEntity);
+		return new ResponseEntity<String>("Teller is created Successfully!!", HttpStatus.OK);
+	}
 }

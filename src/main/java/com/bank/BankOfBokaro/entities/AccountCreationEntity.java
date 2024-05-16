@@ -1,6 +1,8 @@
 package com.bank.BankOfBokaro.entities;
 
-import java.util.Date;
+import java.sql.Date;
+
+import org.springframework.stereotype.Component;
 
 import com.bank.BankOfBokaro.model.AccountCreationModel;
 
@@ -11,8 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
+@Component
 @Table(name="CustomerInfo")
-public class AccountCreationEntity  {
+public class AccountCreationEntity   {
 
 	
 
@@ -23,10 +26,31 @@ public class AccountCreationEntity  {
 	private String email;
 	private long mobileNo;
 	private double initBalance;
-	@Id
+
 	private long accntNumber;
+	private int tellerId;
+	
+	@Id
+	private long journalNo;
+	private Date dateOfAccountCreation;
+	private String status;
 	
 	
+	
+	public String getStatus() {
+		return status;
+	}
+
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return "AccountCreationModel [name=" + name + ", dob=" + dob + ", fathersName=" + fathersName + ", email="
@@ -35,6 +59,21 @@ public class AccountCreationEntity  {
 	}
 	
 	
+	
+
+	public int getTellerId() {
+		return tellerId;
+	}
+
+
+
+
+	public void setTellerId(int tellerId) {
+		this.tellerId = tellerId;
+	}
+
+
+
 
 	public String getName() {
 		return name;
@@ -78,8 +117,38 @@ public class AccountCreationEntity  {
 	public void setAccntNumber(long accntNumber) {
 		this.accntNumber = accntNumber;
 	}
+
+
+	public long getJournalNo() {
+		return journalNo;
+	}
+
+
+
+
+	public void setJournalNo(long journalNo) {
+		this.journalNo = journalNo;
+	}
+
+
+
+
+	public Date getDateOfAccountCreation() {
+		return dateOfAccountCreation;
+	}
+
+
+
+
+	public void setDateOfAccountCreation(Date dateOfAccountCreation) {
+		this.dateOfAccountCreation = dateOfAccountCreation;
+	}
+
+
+
+
 	
-	
+
 	
 	
 }
