@@ -36,9 +36,6 @@ public class DebitCreditService {
 
 		ent = mapper.map(accountDebitCreditModel, AccountDebitCreditEntity.class);
 
-		int jouralNo = debitCreditDao.findMaxJournalNo() + 1;
-
-		ent.setJournalNo(jouralNo);
 
 		ent.setStatus("pendingForAuthorization");
 

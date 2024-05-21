@@ -11,9 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.bank.BankOfBokaro.dao.AccountInfoDao;
 import com.bank.BankOfBokaro.dao.DebitCreditDao;
+import com.bank.BankOfBokaro.dao.JournalTableDao;
 import com.bank.BankOfBokaro.entities.AccountCreationEntity;
 import com.bank.BankOfBokaro.entities.AccountDebitCreditEntity;
+import com.bank.BankOfBokaro.entities.JournalTableEntity;
+import com.bank.BankOfBokaro.model.AccountCreationModel;
 import com.bank.BankOfBokaro.model.AccountInfoModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper; 
+
 
 @Service
 public class AccountCreationServices {
@@ -26,13 +32,19 @@ public class AccountCreationServices {
 	@Autowired
 	ModelMapper mapper;
 
+	@Autowired
+	JournalTableEntity journalTableEntity;
 	
+	@Autowired
+	PrepareDataForJournalTable prepareDataForJournalTable;
+	
+	@Autowired
+	JournalTableDao journalTableDao;
 	
      public String onSubmitOfAccntCreation(AccountInfoModel accountInfoModel) {
     	 
     	 accountCreationEntity = mapper.map(accountInfoModel, AccountCreationEntity.class);
- 		int journalNo=accountInfoDao.findMaxJournalNo()+1;
- 		accountCreationEntity.setJournalNo(journalNo);
+ 		
  		accountCreationEntity.setStatus("pendingForAuthorization");
  		
  		 Calendar calendar = Calendar.getInstance();
@@ -51,10 +63,25 @@ public class AccountCreationServices {
      
      public long getAccountNum() {
     	 
-    	 
- 			return accountInfoDao.findGreatestAccntNumber();
+    	 int accnt=accountInfoDao.findGreatestAccntNumber();
+ 			return accnt;
  		
  		
     	 
+     }
+     
+     public void sendDataForJounrnalTable(AccountInfoModel model) throws JsonProcessingException {
+    	 
+    	 ObjectMapper mapper = new ObjectMapper();
+    	 String json=mapper.writeValueAsString(model);
+    	 
+    	 int jrnlNo=journalTableDao.findGreatestJournalNumber();
+    	 
+    	 journalTableEntity.setJournalNo(jrnlNo+1);
+    	 journalTableEntity.setScreenData(json);
+    	 journalTableEntity.setUrl("process");
+    	 journalTableEntity.setStatus("pendingForAuthorization");
+    	 prepareDataForJournalTable.saveDataInJournalTable(journalTableEntity);
+
      }
 }

@@ -1,5 +1,6 @@
 package com.bank.BankOfBokaro.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bank.BankOfBokaro.dao.AccountInfoDao;
 import com.bank.BankOfBokaro.dao.DebitCreditDao;
+import com.bank.BankOfBokaro.dao.JournalTableDao;
 import com.bank.BankOfBokaro.dao.TellerInfoDao;
 import com.bank.BankOfBokaro.entities.AccountCreationEntity;
 import com.bank.BankOfBokaro.entities.AccountDebitCreditEntity;
+import com.bank.BankOfBokaro.entities.JournalTableEntity;
 import com.bank.BankOfBokaro.entities.TellerInfoEntity;
 import com.bank.BankOfBokaro.model.AccountCreationModel;
 import com.bank.BankOfBokaro.model.AccountDebitCreditModel;
@@ -37,6 +40,12 @@ import com.bank.BankOfBokaro.services.AccountInfoService;
 import com.bank.BankOfBokaro.services.DebitCreditService;
 import com.bank.BankOfBokaro.services.TellerInfoService;
 import com.bank.BankOfBokaro.services.TellerLoginService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class MainController {
@@ -68,6 +77,9 @@ public class MainController {
 	@Autowired
 	TellerLoginService tellerLoginService;
 	
+	@Autowired
+	JournalTableDao journalTableDao;
+	
 	
 	@GetMapping("/accntCreation")
 	public String showAccountCreationPage() {
@@ -78,10 +90,25 @@ public class MainController {
 	@PostMapping("/process")
 
 	public String onSubmitOfAccntCreation(@ModelAttribute AccountInfoModel accountInfoModel, Model model,
-			BindingResult result) {
+			BindingResult result) throws JsonProcessingException {
 
-		accountCreationService.onSubmitOfAccntCreation(accountInfoModel);
- 		model.addAttribute("accountNum", accountInfoModel.getAccntNumber());
+		if(Objects.nonNull(accountInfoModel.getMakerCheckerFlag())) {
+			
+			if(accountInfoModel.getMakerCheckerFlag().equals("Y")) {
+				
+				accountCreationService.sendDataForJounrnalTable(accountInfoModel);
+
+			}
+		}else {
+			
+			accountCreationService.onSubmitOfAccntCreation(accountInfoModel);	
+
+		}
+		
+		
+		
+		
+ 		model.addAttribute("journalNo", journalTableDao.findGreatestJournalNumber());
 
 		return "success";
 
@@ -184,5 +211,15 @@ public class MainController {
 		}
 		tellerInfoService.addTeller(tellerInfoEntity);
 		return new ResponseEntity<String>("Teller is created Successfully!!", HttpStatus.OK);
+	}
+	
+	@PostMapping("/pendingTaskScreen")
+	public String redirectJournal(Model model) throws ServletException, IOException {
+		
+		List<JournalTableEntity> list=(List<JournalTableEntity>) journalTableDao.findAll();
+		
+		model.addAttribute("journalTableList",list);
+		
+		return "PendingTaskWindow";
 	}
 }

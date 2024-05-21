@@ -26,12 +26,12 @@ public class AccountCreationEntity   {
 	private String email;
 	private long mobileNo;
 	private double initBalance;
-
+     
+	@Id
 	private long accntNumber;
 	private int tellerId;
 	
-	@Id
-	private long journalNo;
+
 	private Date dateOfAccountCreation;
 	private String status;
 	
@@ -117,19 +117,6 @@ public class AccountCreationEntity   {
 	public void setAccntNumber(long accntNumber) {
 		this.accntNumber = accntNumber;
 	}
-
-
-	public long getJournalNo() {
-		return journalNo;
-	}
-
-
-
-
-	public void setJournalNo(long journalNo) {
-		this.journalNo = journalNo;
-	}
-
 
 
 

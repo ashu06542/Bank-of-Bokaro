@@ -10,8 +10,5 @@ public interface DebitCreditDao extends CrudRepository<AccountDebitCreditEntity,
 {
 	
 	
-	 @Query(value = "SELECT MAX(journal_no) FROM (SELECT journal_no  FROM customer_info " +
-             "UNION ALL SELECT journal_no FROM debit_credit_info) AS combined_tables", nativeQuery = true)
-Integer findMaxJournalNo();
-
+	
 }

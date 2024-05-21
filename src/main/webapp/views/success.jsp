@@ -8,7 +8,7 @@
 </head>
 <body>
 
-Account No ${accountNum} created successfully
+${journalNo} sent for Authorization
 
 </body>
 </html>

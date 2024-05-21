@@ -6,7 +6,7 @@ package com.bank.BankOfBokaro.model;
 public class AccountInfoModel {
 
 
-		private int id;
+	
 		private String name;
 		private String dob;
 		private String fathersName;
@@ -14,8 +14,37 @@ public class AccountInfoModel {
 		private long mobileNo;
 		private double initBalance;
 		private long accntNumber;
+		private long journalNo;
+		private String makerCheckerFlag;
 		
 		
+		
+		
+		
+		public String getMakerCheckerFlag() {
+			return makerCheckerFlag;
+		}
+
+
+
+		public void setMakerCheckerFlag(String makerCheckerFlag) {
+			this.makerCheckerFlag = makerCheckerFlag;
+		}
+
+
+
+		public long getJournalNo() {
+			return journalNo;
+		}
+
+
+
+		public void setJournalNo(long journalNo) {
+			this.journalNo = journalNo;
+		}
+
+
+
 		@Override
 		public String toString() {
 			return "AccountCreationModel [name=" + name + ", dob=" + dob + ", fathersName=" + fathersName + ", email="
@@ -24,18 +53,6 @@ public class AccountInfoModel {
 		}
 		
 		
-		
-		public int getId() {
-			return id;
-		}
-
-
-
-		public void setId(int id) {
-			this.id = id;
-		}
-
-
 
 		public String getName() {
 			return name;

@@ -5,6 +5,8 @@ import java.sql.Date;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -13,13 +15,12 @@ import jakarta.persistence.Table;
 @Table(name="DebitCreditInfo")
 public class AccountDebitCreditEntity {
 
+	@Id
 	private long accntNo;
 
 	private double amountDebitCredit;
 	
-	@Id
-	private int journalNo;
-
+	
 	private Date DateOfDebitCredit;
 	
 	private String status;
@@ -63,14 +64,7 @@ public class AccountDebitCreditEntity {
 		this.amountDebitCredit = amountDebitCredit;
 	}
 
-	public int getJournalNo() {
-		return journalNo;
-	}
-
-	public void setJournalNo(int journalNo) {
-		this.journalNo = journalNo;
-	}
-
+	
 	public Date getDateOfDebitCredit() {
 		return DateOfDebitCredit;
 	}

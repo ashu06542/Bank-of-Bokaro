@@ -29,6 +29,7 @@
 
   </div>
   
+
   
   <div class="container mt-5">
   
@@ -48,17 +49,45 @@
   Click to see Account Info
   <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
 </a>
+
+			<button type="submit" id="submitBtn" class="btn btn-primary">Pending Task</button>
+
+           <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+      
+    
+      
+
+    </div>
+  </div>
+</div>
+
+
+                 
+
   </div>
   
-  <div>
-  
-  </div>
-  
-  <div>
-  
-  </div>
-  
-  
+          
   
   
   
@@ -67,8 +96,12 @@
   
  </div>
   
+ 
   
   
+   <div id="responseContainer">
+    <!-- AJAX response will be inserted here -->
+</div> 
   
   
   
@@ -87,7 +120,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>         
      
-         <script src="/resources/js/AccountCreation.js"> </script>
+         <script src="/resources/js/TellerDashBoard.js"> </script>
 
   
   </body>

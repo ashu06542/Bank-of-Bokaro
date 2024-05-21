@@ -63,6 +63,11 @@
     <input type="text" name="accntNumber" class="form-control" id="accnt"   placeholder="Enter Account Number">
   </div>
 
+  <div class="form-group w-25" >
+    <label for="exampleInputPassword1">makerCheckerFlag</label>
+    <input type="text" name="makerCheckerFlag" class="form-control" id="makerChecker"   placeholder="Enter Account Number">
+  </div>
+
   <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
 </form>
   

@@ -5,7 +5,7 @@
 //alert("hello");
 $(document).ready(function(){ 
    
- 
+ $("#makerChecker").hide();
    
 });
 
@@ -33,3 +33,8 @@ $.ajax({
 	
 });
 
+
+$("#submitBtn").click(function(){
+	
+	$("#makerChecker").val("Y");
+});
