@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
-public class AccountCreationServices {
+public class AccountCreationServices extends JournalTableService {
 	@Autowired
 	AccountInfoDao accountInfoDao;
 	
@@ -36,7 +36,7 @@ public class AccountCreationServices {
 	JournalTableEntity journalTableEntity;
 	
 	@Autowired
-	PrepareDataForJournalTable prepareDataForJournalTable;
+	JournalTableService journalTableService;
 	
 	@Autowired
 	JournalTableDao journalTableDao;
@@ -47,14 +47,7 @@ public class AccountCreationServices {
  		
  		accountCreationEntity.setStatus("pendingForAuthorization");
  		
- 		 Calendar calendar = Calendar.getInstance();
- 	        java.util.Date today = calendar.getTime();
- 	        
- 	        // Convert to SQL Date
- 	        Date sqlDate = new Date(today.getTime());
-
  		
- 	       accountCreationEntity.setDateOfAccountCreation(sqlDate);
  		accountInfoDao.save(accountCreationEntity);
  		
  		return "success";
@@ -70,18 +63,5 @@ public class AccountCreationServices {
     	 
      }
      
-     public void sendDataForJounrnalTable(AccountInfoModel model) throws JsonProcessingException {
-    	 
-    	 ObjectMapper mapper = new ObjectMapper();
-    	 String json=mapper.writeValueAsString(model);
-    	 
-    	 int jrnlNo=journalTableDao.findGreatestJournalNumber();
-    	 
-    	 journalTableEntity.setJournalNo(jrnlNo+1);
-    	 journalTableEntity.setScreenData(json);
-    	 journalTableEntity.setUrl("process");
-    	 journalTableEntity.setStatus("pendingForAuthorization");
-    	 prepareDataForJournalTable.saveDataInJournalTable(journalTableEntity);
-
-     }
+   
 }

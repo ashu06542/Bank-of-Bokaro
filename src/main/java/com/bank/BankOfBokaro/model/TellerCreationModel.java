@@ -1,14 +1,20 @@
 package com.bank.BankOfBokaro.model;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.Id;
 
+@Component
 public class TellerCreationModel {
 
-	@Id
+	
 	private int tellerId;
 	private String pass;
 	private int capability;
 	private String name;
+	
+	
+	
 	public int getTellerId() {
 		return tellerId;
 	}

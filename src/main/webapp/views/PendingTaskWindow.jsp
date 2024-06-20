@@ -33,16 +33,19 @@
 					<tr>
 						<th scope="col">JournalNo</th>
 						<th scope="col">Status</th>
+						<th scope="col">Action</th>
 					</tr>
 				</thead>
 				<tbody>
 				
-				<% for(JournalTableEntity obj:list) { %>	
-	<tr>
+				<% for(int i=0; i<list.size(); i++) { %>	
+	<tr id=<%="tableRow"+i %>>
 
-	<td><%=obj.getJournalNo() %></td>
+	<td><%=list.get(i).getJournalNo() %></td>
 	
-		<td><%=obj.getStatus() %></td>
+		<td><%=list.get(i).getStatus() %></td>
+		          <td> <button type="button" class="btn auth" onClick="onAuthClick(event)">Authorize</button>    <button type="button" class="btn">Reject</button></td>
+		
 	
 	</tr>
 <% } %>

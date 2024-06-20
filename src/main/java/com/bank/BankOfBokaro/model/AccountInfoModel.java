@@ -3,7 +3,7 @@ package com.bank.BankOfBokaro.model;
 
 
 
-public class AccountInfoModel {
+public class AccountInfoModel{
 
 
 	
@@ -15,21 +15,7 @@ public class AccountInfoModel {
 		private double initBalance;
 		private long accntNumber;
 		private long journalNo;
-		private String makerCheckerFlag;
 		
-		
-		
-		
-		
-		public String getMakerCheckerFlag() {
-			return makerCheckerFlag;
-		}
-
-
-
-		public void setMakerCheckerFlag(String makerCheckerFlag) {
-			this.makerCheckerFlag = makerCheckerFlag;
-		}
 
 
 

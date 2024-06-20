@@ -29,10 +29,7 @@ public class AccountCreationEntity   {
      
 	@Id
 	private long accntNumber;
-	private int tellerId;
-	
 
-	private Date dateOfAccountCreation;
 	private String status;
 	
 	
@@ -61,17 +58,7 @@ public class AccountCreationEntity   {
 	
 	
 
-	public int getTellerId() {
-		return tellerId;
-	}
-
-
-
-
-	public void setTellerId(int tellerId) {
-		this.tellerId = tellerId;
-	}
-
+	
 
 
 
@@ -116,19 +103,6 @@ public class AccountCreationEntity   {
 	}
 	public void setAccntNumber(long accntNumber) {
 		this.accntNumber = accntNumber;
-	}
-
-
-
-	public Date getDateOfAccountCreation() {
-		return dateOfAccountCreation;
-	}
-
-
-
-
-	public void setDateOfAccountCreation(Date dateOfAccountCreation) {
-		this.dateOfAccountCreation = dateOfAccountCreation;
 	}
 
 

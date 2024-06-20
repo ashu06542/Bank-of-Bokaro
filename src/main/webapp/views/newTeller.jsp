@@ -50,7 +50,10 @@
     <input type="text" name="capability" class="form-control" id="pass" required placeholder="Enter Password">
   </div>
   
-  
+<!--     <div class="form-group w-25" > -->
+<!--     <label for="exampleInputPassword1">makerCheckerFlag</label> -->
+<!--     <input type="text" name="makerCheckerFlag" class="form-control" id="makerChecker"   placeholder="Enter Account Number"> -->
+<!--   </div> -->
 
   <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
 </form>
@@ -80,7 +83,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>         
      
-         <script src="/resources/js/AccountCreation.js"> </script>
+         <script src="/resources/js/TellerCreation.js"> </script>
 
   
   </body>
